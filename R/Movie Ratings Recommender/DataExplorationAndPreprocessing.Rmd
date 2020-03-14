@@ -1,0 +1,284 @@
+---
+title: "Data Exploration and Preprocessing"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+# ProblemA.R
+library(ggplot2)
+library(tidyverse)
+library(lubridate)
+
+ratings_from_csv <- function(file_path) {
+    ratings <- read.csv(file_path, header=FALSE, sep='\t')
+    names(ratings) <- c('user_id', 'movie_id', 'rating', 'timestamp')
+    return(ratings)
+}
+
+date_to_sec <- function(date_str) {
+  as.integer(as.POSIXct(as.Date(date_str, format='%d-%b-%Y')))
+}
+
+# Create data frames for ratings
+ratings_train <- ratings_from_csv('/Users/Stephanie/Desktop/OMSI/omsi/ml-100k/ua.base')
+ratings_test <- ratings_from_csv('/Users/Stephanie/Desktop/OMSI/omsi/ml-100k/ua.test')
+ratings <- rbind(ratings_train, ratings_test)
+
+# Create data frame for movie data
+movie_info <- read.csv('/Users/Stephanie/Desktop/OMSI/omsi/ml-100k/u.item', header=FALSE, sep='|')
+names(movie_info) <- c('movie_id', 'movie_title', 'release_date',
+                       'video_release_date', 'imdb_url', 'unknown', 'action',
+                       'adventure', 'animation', 'childrens', 'comedy', 'crime',
+                       'documentary', 'drama', 'fantasy', 'filmnoir', 'horror',
+                       'musical', 'mystery', 'romance', 'scifi', 'thriller',
+                       'war', 'western')
+
+# Create data frame for user data
+user_info <- read.csv('/Users/Stephanie/Desktop/OMSI/omsi/ml-100k/u.user', header=FALSE, sep='|')
+names(user_info) <- c('user_id', 'age', 'gender', 'occupation', 'zip_code')
+
+# Merge movie user data into rating data
+ratings <- merge(ratings, movie_info, by.x='movie_id', by.y='movie_id')
+ratings <- merge(ratings, user_info, by.x='user_id', by.y='user_id')
+head(ratings)
+```
+
+## Preprocessing
+### Missing Values
+```{r}
+NA_ratings <- sapply(ratings, function(x) switch( class(x), factor = sum(x==""), sum( is.na(x) ) ))
+NA_ratings_df <- as.data.frame( t(NA_ratings) )
+NA_ratings_df[which(NA_ratings_df != 0)]
+```
+From above, we can see that all values of video_release_date are NA. This suggests that we can remove the feature from our dataset without losing any information.
+
+We can also see that there are 9 observations with missing values. We can take a closer look to at the overvations that have NA value for release date.
+
+```{r}
+# Convert movie release date to seconds from UNIX epoch
+ratings$release_date <- apply(ratings[c('release_date')], 1, date_to_sec)
+ratings %>% filter(release_date %>% is.na())
+```
+From above, we can see that the observations with missing values for release_date are also missing information about movie_title and genre. This missing information will make these observations not very useful for rating predictions so we will drop them.
+
+```{r}
+# remove overvations with missing values for release_date
+missing_dates <- ratings$release_date %>% is.na() %>% which()
+ratings <- ratings[-missing_dates,]
+```
+
+The final variable with missing values is imdb_url. We will be removing this feature because it does not give useful information related to movie rating. 
+
+### Feature Removal
+We decided to remove the three following features: movie_title, video_release_date, and imdb_url. As discussed above, we will remove video_release_date because it have all missing values and imdb_url because it has missing values and is noninformative in regards to movie rating. Lastly, we will remove movie_title because it is redundant information since we already have movie_id.
+
+```{r}
+# Remove noninfomative predictors
+drops <- c('movie_title','video_release_date','imdb_url')
+ratings <- ratings[ , !names(ratings) %in% drops]
+```
+
+### Feature Preprocessing
+Preprocess timestamp and release_date to be consistent
+```{r}
+# convert timestamp and release date to class Date for fprocessing later
+ratings$timestamp <- ratings$timestamp %>% as_datetime
+ratings$release_date <- ratings$release_date %>% as_datetime
+```
+
+zip_code 
+```{r}
+# replace old zipcode column with two digits
+ratings$zip_code <- substr(as.character(ratings$zip_code),1,2)
+```
+
+Convert categorical variables to factors
+```{r}
+# convert all categorical variables to factors
+factor_cols <- c('user_id', 'movie_id', 'unknown', 'action',
+                       'adventure', 'animation', 'childrens', 'comedy', 'crime',
+                       'documentary', 'drama', 'fantasy', 'filmnoir', 'horror',
+                       'musical', 'mystery', 'romance', 'scifi', 'thriller',
+                       'war', 'western','zip_code')
+ratings[,factor_cols] <- data.frame(apply(ratings[factor_cols], 2, as.factor))
+```
+
+### Feature Engineering
+Time intervals
+```{r}
+ratings$release_year <- year(ratings$release_date)
+ratings$release_month <- month(ratings$release_date)
+ratings$timestamp_year <- year(ratings$timestamp)
+ratings$timestamp_month <- month(ratings$timestamp)
+ratings$time_difference <- as.period(ratings$timestamp - ratings$release_date) %>% day
+```
+
+Age intervals
+```{r}
+age <- ratings %>% pull(age)
+ratings$age_group <- rep(0,nrow(ratings))
+ratings$age_group <- findInterval(age,c(10,20,30,40,50,60,70,80))
+ratings$age_group <- as.factor(ratings$age_group)
+# 0, 1, 2, 3, 4, 5, 6, 7
+levels(ratings$age_group) <- c("<10","10-20","20-30","30-40","40-50","50-60","60-70","70+")
+```
+
+
+## Summary Statistics ########################################################
+Distibution of Feature Values
+```{r}
+summary(ratings)
+```
+
+Features Types and Values
+```{r}
+str(ratings)
+```
+
+### Gender
+Number of ratings by gender
+```{r, echo=FALSE}
+summary(ratings$gender)
+```
+
+Rating Proportions by Gender
+```{r, echo=FALSE}
+prop.table(table(ratings$gender, ratings$rating))
+```
+
+Row wise rating Proportions
+```{r, echo=FALSE}
+prop.table(table(ratings$gender, ratings$rating),1)
+```
+
+### Age
+Number of ratings by age
+```{r, echo=FALSE}
+summary(ratings$age)
+```
+
+Rating proportions by age group
+```{r, echo=FALSE}
+age <- ratings %>% pull(age)
+age_group <- as.factor(findInterval(age,c(10,20,30,40,50,60,70,80)))
+levels(age_group) <- c("<10","10-20","20-30","30-40","40-50","50-60","60-70","70+")
+prop.table(table(age_group, ratings$rating))
+```
+
+Row wise rating proportions by age group
+```{r, echo=FALSE}
+prop.table(table(age_group, ratings$rating))
+```
+
+Table with both gender and age
+```{r}
+aggregate(rating ~ age_group + gender, data=ratings, FUN=sum)
+```
+
+```{r}
+aggregate(rating ~ age_group + gender, data=ratings, FUN=length)
+```
+
+```{r}
+aggregate(rating ~ age_group + gender, data=ratings, FUN=function(x) {length(x)/sum(x)})
+```
+
+```{r}
+aggregate(rating ~ zip_code + age_group + gender, data=ratings, FUN=function(x) {sum(x)/length(x)})
+```
+
+## Data Visualization
+### Distribution of Gender
+```{r}
+ggplot(ratings, aes(x = factor(gender), fill = factor(gender))) +
+  geom_bar( show.legend=FALSE) +
+  xlab("Gender") +
+  ylab("Total Count") +
+  ggtitle("Distribution of Gender")
+```
+
+Ratings by Gender
+```{r}
+# Ratings by Gender
+ggplot(subset(ratings, !is.na(gender)), aes(x = gender, fill = as.factor(rating))) +
+  geom_bar() +
+  ggtitle("Rating Count by Gender") +
+  xlab("Gender") +
+  ylab("Total Count") +
+  labs(fill = "Survived")
+```
+
+Average Rating by Gender
+```{r}
+male_mean <- ratings %>% filter(gender=='M') %>% pull(rating) %>% mean
+female_mean <- ratings %>% filter(gender=='F') %>% pull(rating) %>% mean
+mean_gender <- c(male_mean, female_mean)
+gender <- c("male","female")
+mean_gender_df <- data.frame(gender, mean_gender)
+ggplot(mean_gender_df, aes(x=gender, y=mean_gender)) + 
+  geom_bar(stat="identity") +
+  ggtitle("Average Rating by Gender") +
+  xlab("Gender") +
+  ylab("Average Rating")
+```
+
+Average Rating by Genre
+```{r}
+# convert genres to factor
+genres <- ratings[,7:24]
+for(i in 1:ncol(genres)) {
+  genres[,i] <- as.factor(genres[,i])
+}
+ratings[,7:24] <- genres
+genres_rating <- cbind(genres, ratings[,3])
+colnames(genres_rating)[19] <- "rating"
+
+# show average rating by genre
+mean <- rep(0,ncol(genres_rating)-1)
+for(i in 1:(ncol(genres_rating)-1)) {
+  mean[i] <- genres_rating %>% filter(genres_rating[[i]] == 1) %>% pull(rating) %>% mean
+}
+genres <- names(genres)
+df <- data.frame(genres, mean)
+ggplot(df, aes(x=genres, y=mean)) + 
+  geom_bar(stat="identity") + 
+  coord_flip() + 
+  xlab("Genre") +
+  ylab("Average Rating") +
+  ggtitle("Average Rating by Genre")
+```
+
+
+Rating by Age Group
+```{r}
+ggplot(ratings, aes(x = age_group, fill = as.factor(rating))) +
+  geom_bar() +
+  ggtitle("Rating Count by Age") +
+  xlab("Age") +
+  ylab("Total Count") +
+  labs(fill = "Rating")
+```
+
+## Split train and test ####################################################
+```{r, eval=FALSE}
+# Split ratings back into train and test
+ratings_train <- merge(ratings_train, ratings, by=names(ratings_train))
+ratings_test <- merge(ratings_test, ratings, by=names(ratings_test))
+```
+
+## Model Training ###########################################################
+```{r, eval=FALSE}
+lm(rating ~., data=ratings[,-c(4,5)])
+base_model <- lm(rating ~., data=ratings[,-c(1,2,4,5,29:32)])
+summary(base_model)
+model1 <- lm(rating ~., data=ratings[,-c(4,5,27:32)]) # .34
+model2 <- lm(rating ~., data=ratings[,-c(1,4,5,27:32)]) # .2112
+model3 <- lm(rating ~., data=ratings[,-c(2,4,5,27:32)]) # .28 
+```
+

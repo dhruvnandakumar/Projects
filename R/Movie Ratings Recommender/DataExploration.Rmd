@@ -1,0 +1,138 @@
+---
+title: "Data Exploration"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+```{r, echo=FALSE}
+file <- read.csv(file='/Users/Stephanie/Desktop/OMSI/omsi/ml-100k/ua.base')
+ratings_from_csv <- function(file_path) {
+  ratings <- read.csv(file_path, header=FALSE, sep='\t')
+  names(ratings) <- c('user_id', 'movie_id', 'rating', 'timestamp')
+  return(ratings)
+}
+
+date_to_sec <- function(date_str) {
+  as.integer(as.POSIXct(as.Date(date_str, format='%d-%b-%Y')))
+}
+
+# Create data frames for ratings
+ratings_train <- ratings_from_csv('/Users/Stephanie/Desktop/OMSI/omsi/ml-100k/ua.base')
+
+ratings_test <- ratings_from_csv('/Users/Stephanie/Desktop/OMSI/omsi/ml-100k/ua.test')
+
+ratings <- rbind(ratings_train, ratings_test)
+
+# Create data frame for movie data
+movie_info <- read.csv('/Users/Stephanie/Desktop/OMSI/omsi/ml-100k/u.item', header=FALSE, sep='|')
+names(movie_info) <- c('movie_id', 'movie_title', 'release_date',
+                       'video_release_date', 'imdb_url', 'unknown', 'action',
+                       'adventure', 'animation', 'childrens', 'comedy', 'crime',
+                       'documentary', 'drama', 'fantasy', 'filmnoir', 'horror',
+                       'musical', 'mystery', 'romance', 'scifi', 'thriller',
+                       'war', 'western')
+
+# Create data frame for user data
+user_info <- read.csv('/Users/Stephanie/Desktop/OMSI/omsi/ml-100k/u.user', header=FALSE, sep='|')
+names(user_info) <- c('user_id', 'age', 'gender', 'occupation', 'zip_code')
+
+# Merge movie user data into rating data
+ratings <- merge(ratings, movie_info, by.x='movie_id', by.y='movie_id',all.x=TRUE, all.y=TRUE)
+ratings <- merge(ratings, user_info, by.x='user_id', by.y='user_id',all.x=TRUE, all.y=TRUE)
+
+# Convert movie release date to seconds from UNIX epoch
+# ratings$release_date <- apply(ratings[c('release_date')], 1, date_to_sec)
+
+# Do more preprocessing here...
+
+# Split ratings back into train and test
+ratings_train <- merge(ratings_train, ratings, by=names(ratings_train))
+ratings_test <- merge(ratings_test, ratings, by=names(ratings_test))
+```
+
+## Missing Values
+
+```{r, echo=FALSE}
+## using ratings2 df
+ratings2 <- ratings
+NA_ratings <- sapply(ratings2, function(x) switch( class(x), factor = sum(x==""), sum( is.na(x) ) ))
+NA_ratings_df <- as.data.frame( t(NA_ratings) )
+NA_ratings_df[which(NA_ratings_df != 0)]
+```
+
+This suggests that we may be able to impute values for release_date, imdb_url and may have to remove all of the video_relase_date information.
+
+# Variable Features
+## Categorical Features (user_id, movie_id, rating, timestamp?, )
+Distribution of Gender
+```{r}
+library(ggplot2)
+library(tidyverse)
+# Distribution of gender
+ggplot(ratings2, aes(x = factor(gender), fill = factor(gender))) +
+  geom_bar( show.legend=FALSE) +
+  xlab("Gender") +
+  ylab("Total Count") +
+  ggtitle("Distribution of Gender")
+```
+
+Ratings by Gender
+```{r}
+# Ratings by Gender
+ggplot(subset(ratings2, !is.na(gender)), aes(x = gender, fill = as.factor(rating))) +
+  geom_bar() +
+  ggtitle("Rating Count by Gender") +
+  xlab("Gender") +
+  ylab("Total Count") +
+  labs(fill = "Survived")
+```
+
+Average Rating by Gender
+```{r}
+male_mean <- ratings2 %>% filter(gender=='M') %>% pull(rating) %>% mean
+female_mean <- ratings2 %>% filter(gender=='F') %>% pull(rating) %>% mean
+mean_gender <- c(male_mean, female_mean)
+gender <- c("male","female")
+mean_gender_df <- data.frame(gender, mean_gender)
+ggplot(mean_gender_df, aes(x=gender, y=mean_gender)) + 
+  geom_bar(stat="identity") +
+  ggtitle("Average Rating by Gender") +
+  xlab("Gender") +
+  ylab("Average Rating")
+```
+
+Average Rating by Genre
+```{r}
+# ratings <- merge(ratings, movie_info, by.x='movie_id', by.y='movie_id',all.x=TRUE, all.y=TRUE)
+# ratings <- merge(ratings, user_info, by.x='user_id', by.y='user_id',all.x=TRUE, all.y=TRUE)
+# ratings2 <- ratings
+
+# convert genres to factor
+genres <- ratings2[,9:27]
+for(i in 1:ncol(genres)) {
+  genres[,i] <- as.factor(genres[,i])
+}
+ratings2[,9:27] <- genres
+genres_rating <- cbind(genres, ratings2[,3])
+colnames(genres_rating)[20] <- "rating"
+
+# show average rating by genre
+mean <- rep(0,ncol(genres_rating)-1)
+for(i in 1:(ncol(genres_rating)-1)) {
+  mean[i] <- genres_rating %>% filter(genres_rating[[i]] == 1) %>% pull(rating) %>% mean
+}
+genres <- names(genres)
+df <- data.frame(genres, mean)
+ggplot(df, aes(x=genres, y=mean)) + 
+  geom_bar(stat="identity") + 
+  coord_flip() + 
+  xlab("Genre") +
+  ylab("Average Rating") +
+  ggtitle("Average Rating by Genre")
+```
