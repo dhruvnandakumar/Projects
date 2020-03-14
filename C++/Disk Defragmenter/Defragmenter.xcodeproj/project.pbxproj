@@ -1,0 +1,294 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6492FCF51FBFCC4B005C5EDC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6492FCF41FBFCC4B005C5EDC /* main.cpp */; };
+		6492FD001FBFCD25005C5EDC /* mynew.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6492FCFE1FBFCD25005C5EDC /* mynew.cpp */; };
+		6492FD031FBFCD85005C5EDC /* defragmenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6492FD011FBFCD85005C5EDC /* defragmenter.cpp */; };
+		6492FD061FBFCFA0005C5EDC /* ManageRAM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6492FD041FBFCFA0005C5EDC /* ManageRAM.cpp */; };
+		6492FD211FC21B72005C5EDC /* BinaryHeap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6492FD1F1FC21B72005C5EDC /* BinaryHeap.cpp */; };
+		6492FD241FC21BA1005C5EDC /* vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6492FD221FC21BA1005C5EDC /* vector.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6492FCEF1FBFCC4B005C5EDC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6492FCF11FBFCC4B005C5EDC /* Defragmenter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Defragmenter; sourceTree = BUILT_PRODUCTS_DIR; };
+		6492FCF41FBFCC4B005C5EDC /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		6492FCFB1FBFCCA1005C5EDC /* DefragRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefragRunner.h; sourceTree = "<group>"; };
+		6492FCFC1FBFCCE4005C5EDC /* CPUTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPUTimer.h; sourceTree = "<group>"; };
+		6492FCFE1FBFCD25005C5EDC /* mynew.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mynew.cpp; sourceTree = "<group>"; };
+		6492FD011FBFCD85005C5EDC /* defragmenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = defragmenter.cpp; sourceTree = "<group>"; };
+		6492FD021FBFCD85005C5EDC /* defragmenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = defragmenter.h; sourceTree = "<group>"; };
+		6492FD041FBFCFA0005C5EDC /* ManageRAM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManageRAM.cpp; sourceTree = "<group>"; };
+		6492FD051FBFCFA0005C5EDC /* ManageRAM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageRAM.h; sourceTree = "<group>"; };
+		6492FD111FBFD43D005C5EDC /* dsexceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dsexceptions.h; sourceTree = "<group>"; };
+		6492FD1B1FBFDF38005C5EDC /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
+		6492FD1C1FBFDF4B005C5EDC /* BinaryHeap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BinaryHeap.h; sourceTree = "<group>"; };
+		6492FD1E1FC21B2B005C5EDC /* mynew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mynew.h; sourceTree = "<group>"; };
+		6492FD1F1FC21B72005C5EDC /* BinaryHeap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BinaryHeap.cpp; sourceTree = "<group>"; };
+		6492FD221FC21BA1005C5EDC /* vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6492FCEE1FBFCC4B005C5EDC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6492FCE81FBFCC4B005C5EDC = {
+			isa = PBXGroup;
+			children = (
+				6492FCF31FBFCC4B005C5EDC /* Defragmenter */,
+				6492FCF21FBFCC4B005C5EDC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6492FCF21FBFCC4B005C5EDC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6492FCF11FBFCC4B005C5EDC /* Defragmenter */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6492FCF31FBFCC4B005C5EDC /* Defragmenter */ = {
+			isa = PBXGroup;
+			children = (
+				6492FCF41FBFCC4B005C5EDC /* main.cpp */,
+				6492FCFB1FBFCCA1005C5EDC /* DefragRunner.h */,
+				6492FCFC1FBFCCE4005C5EDC /* CPUTimer.h */,
+				6492FCFE1FBFCD25005C5EDC /* mynew.cpp */,
+				6492FD1E1FC21B2B005C5EDC /* mynew.h */,
+				6492FD021FBFCD85005C5EDC /* defragmenter.h */,
+				6492FD011FBFCD85005C5EDC /* defragmenter.cpp */,
+				6492FD051FBFCFA0005C5EDC /* ManageRAM.h */,
+				6492FD041FBFCFA0005C5EDC /* ManageRAM.cpp */,
+				6492FD111FBFD43D005C5EDC /* dsexceptions.h */,
+				6492FD1B1FBFDF38005C5EDC /* vector.h */,
+				6492FD221FC21BA1005C5EDC /* vector.cpp */,
+				6492FD1C1FBFDF4B005C5EDC /* BinaryHeap.h */,
+				6492FD1F1FC21B72005C5EDC /* BinaryHeap.cpp */,
+			);
+			path = Defragmenter;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6492FCF01FBFCC4B005C5EDC /* Defragmenter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6492FCF81FBFCC4B005C5EDC /* Build configuration list for PBXNativeTarget "Defragmenter" */;
+			buildPhases = (
+				6492FCED1FBFCC4B005C5EDC /* Sources */,
+				6492FCEE1FBFCC4B005C5EDC /* Frameworks */,
+				6492FCEF1FBFCC4B005C5EDC /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Defragmenter;
+			productName = Defragmenter;
+			productReference = 6492FCF11FBFCC4B005C5EDC /* Defragmenter */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6492FCE91FBFCC4B005C5EDC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Dhruv Nandakumar";
+				TargetAttributes = {
+					6492FCF01FBFCC4B005C5EDC = {
+						CreatedOnToolsVersion = 8.3.1;
+						DevelopmentTeam = MD584YLKR7;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 6492FCEC1FBFCC4B005C5EDC /* Build configuration list for PBXProject "Defragmenter" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6492FCE81FBFCC4B005C5EDC;
+			productRefGroup = 6492FCF21FBFCC4B005C5EDC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6492FCF01FBFCC4B005C5EDC /* Defragmenter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6492FCED1FBFCC4B005C5EDC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6492FD001FBFCD25005C5EDC /* mynew.cpp in Sources */,
+				6492FD211FC21B72005C5EDC /* BinaryHeap.cpp in Sources */,
+				6492FD241FC21BA1005C5EDC /* vector.cpp in Sources */,
+				6492FD031FBFCD85005C5EDC /* defragmenter.cpp in Sources */,
+				6492FCF51FBFCC4B005C5EDC /* main.cpp in Sources */,
+				6492FD061FBFCFA0005C5EDC /* ManageRAM.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6492FCF61FBFCC4B005C5EDC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		6492FCF71FBFCC4B005C5EDC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		6492FCF91FBFCC4B005C5EDC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = MD584YLKR7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6492FCFA1FBFCC4B005C5EDC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = MD584YLKR7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6492FCEC1FBFCC4B005C5EDC /* Build configuration list for PBXProject "Defragmenter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6492FCF61FBFCC4B005C5EDC /* Debug */,
+				6492FCF71FBFCC4B005C5EDC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6492FCF81FBFCC4B005C5EDC /* Build configuration list for PBXNativeTarget "Defragmenter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6492FCF91FBFCC4B005C5EDC /* Debug */,
+				6492FCFA1FBFCC4B005C5EDC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6492FCE91FBFCC4B005C5EDC /* Project object */;
+}
