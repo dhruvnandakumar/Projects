@@ -1,1 +1,9 @@
-I'm cleaning up this repository and should have it up and running by end of day March 14 2020! 
+The folders contain: 
+
+C++: Some projects I have written in C/C++. Including a disk defragmenter, and a virtual machine implementation complete with memory management. 
+
+Java: Thsi folder contains code I have written in Java. This includes certain ML algorithm implementations like Alpha Beta pruning and ASTAR. 
+
+Python: Contains code I wrote for a Deep Reinforcement Learning that learns to play Atari Pong 
+
+R: Contains code in R that I wrote. Includes code for a reccomender system that predicts movie ratings for users, as well as a weather prediction algorithm that uses kNN and linear regression to predict weather. 
